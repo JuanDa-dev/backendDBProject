@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from dotenv import load_dotenv
 load_dotenv()
 from routes.auth import auth_routes
-from routes.index import index_routes
+from routes.dataEvents import data_event_routes
 from routes.events import event_routes
 from os import getenv
 import uvicorn
@@ -25,7 +25,7 @@ app.add_middleware(
 )
 
 app.include_router(auth_routes, prefix="/api")
-app.include_router(index_routes, prefix="/api")
+app.include_router(data_event_routes, prefix="/api")
 app.include_router(event_routes, prefix="/api")
 load_dotenv()
 

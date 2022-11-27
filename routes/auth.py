@@ -36,9 +36,8 @@ def login(user: User):
   db_user = conn.execute(users.select().where(users.c.name == user.name)).first()
   if db_user:
     f = Fernet(bytes(db_user.key, ENCODING))
-    if user.password == str(f.decrypt(db_user.password), ENCODING):
+    if user.password == str(f.decrypt(bytes(db_user.password, ENCODING)), ENCODING):
       user.id = db_user.id
-      user.password = db_user.password
       return write_token(user.dict())
     else:
       return JSONResponse(content={"message": "Password incorrect" }, status_code=404)
