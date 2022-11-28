@@ -29,7 +29,7 @@ def create_form(form: Form, event_id: str):
 
 @data_event_routes.get('/data_events/attendees/{event_id}', tags=['dataEvents'])
 def get_attendees(event_id: str):
-    result = list(conn.execute(qrcodes.select().join(events).join(attendees)))
+    result = conn.execute(attendees.select().join(qrcodes).join(events).where(qrcodes.c.event_id==event_id)).all()
     if len(result) == 0:
         return JSONResponse(content={"message": "There aren't attendees registered"}, status_code=404)
     else:
