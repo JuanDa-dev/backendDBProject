@@ -14,7 +14,8 @@ app = FastAPI(openapi_tags=[{"name": "Auth", "description": "Auth routes"}])
 origins = [
     "https://sigae-for-all.edimarod02.repl.co",
     "http://localhost:3000",
-    "http://127.0.0.1:3000"
+    "http://127.0.0.1:3000",
+    "https://sigae-itjb.onrender.com"
 ]
 
 app.add_middleware(
