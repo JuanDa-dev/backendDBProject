@@ -9,6 +9,7 @@ class VerifyTokenRoute(APIRoute):
 
     async def verify_token_middleware(request: Request):
       try:
+        print(request.headers["authorization"])
         token = request.headers["authorization"].split(" ")[1]
       except KeyError:
         token = ""

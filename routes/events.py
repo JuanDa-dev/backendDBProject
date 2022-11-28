@@ -4,6 +4,7 @@ from db.db import conn
 from models.users import users
 from models.forms import forms
 from models.events import events
+from models.QRCodes import qrcodes
 from uuid import uuid4 as uuid
 from schemas.event import Event
 from schemas.user import User
@@ -44,11 +45,11 @@ def get_event(event_id: str):
   else:
     return JSONResponse(content={"message": "The event does not exist"}, status_code=404)
 
-@event_routes.get('/events/get_all', tags=["events"])
-def get_all_events(user: User):
+@event_routes.get('/events/get_all/{user_id}', tags=["events"])
+def get_all_events(user_id: str):
   result = list(conn.execute(events.select()
                                   .join(users)
-                                  .filter(users.c.name == user.name)))
+                                  .filter(users.c.id == user_id)))
   if len(result) > 0:
     return result
   else:
@@ -56,7 +57,10 @@ def get_all_events(user: User):
 
 @event_routes.delete('/events/delete/{event_id}', tags=["events"])
 def delete_event(event_id: str):
+  conn.execute(qrcodes.delete().where(qrcodes.c.event_id == event_id))
   conn.execute(events.delete().where(events.c.id == event_id))
+  form_id = conn.execute(events.select().where(events.c.id == event_id)).first().form_id
+  conn.execute(forms.delete().where(forms.c.id == form_id))
   result = conn.execute(events.select().where(events.c.id == event_id)).first()
   if result:
     return JSONResponse(content={"message": "Event not deleted"}, status_code=404)
