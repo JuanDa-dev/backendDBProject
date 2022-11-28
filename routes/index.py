@@ -46,7 +46,7 @@ def register_attendees(attendee: Attendee, event_id: str):
         if result2:
             return JSONResponse(content={"message": "Attendee already registered"}, status_code=404)
         else:
-            conn.execute(qrocodes.insert().values(new_qrcode))
+            conn.execute(qrcodes.insert().values(new_qrcode))
             return conn.execute(qrcodes.select().where(qrcodes.c.id == qrcode_id)).first()
     else:
         conn.execute(attendees.insert().values(new_attendee))

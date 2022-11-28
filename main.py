@@ -29,9 +29,3 @@ app.include_router(auth_routes, prefix="/api")
 app.include_router(data_event_routes, prefix="/api")
 app.include_router(event_routes, prefix="/api")
 app.include_router(index_routes, prefix="/api")
-
-load_dotenv()
-
-if __name__ == "__main__":
-  PORT = int(getenv("PORT"))
-  uvicorn.run("main:app", host="0.0.0.0", port=PORT, reload=True)
