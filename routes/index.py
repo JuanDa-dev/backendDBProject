@@ -53,11 +53,11 @@ def register_attendees(attendee: Attendee, event_id: str):
         conn.execute(qrcodes.insert().values(new_qrcode))
         return conn.execute(qrcodes.select().where(qrcodes.c.id == qrcode_id)).first()
 
-@index_routes.get('/data_events/event_by_form/{form_id}')
+@index_routes.get('/data_events/event_by_form/{form_id}', tags=["Form"])
 def get_event_by_form_id(form_id: str):
     return conn.execute(events.select().where(events.c.form_id==form_id)).first()
 
-@index_routes.put('/data_events/attendees/{qrcode_id}')
+@index_routes.put('/data_events/attendees/{qrcode_id}', tags=["Form"])
 def update_attendance(qrcode_id: str):
     conn.execute(qrcodes.update().values(attended=True).where(qrcodes.c.id==qrcode_id))
     return conn.execute(qrcodes.select().where(qrcodes.c.id==qrcode_id)).first()
