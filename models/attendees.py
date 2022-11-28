@@ -1,5 +1,5 @@
 from sqlalchemy import Table, Column
-from sqlalchemy.sql.sqltypes import String, DateTime, Boolean
+from sqlalchemy.sql.sqltypes import String, DateTime
 from db.db import meta, engine
 
 attendees = Table('attendees', meta,
@@ -12,8 +12,7 @@ attendees = Table('attendees', meta,
                 Column('birthdate', DateTime()),
                 Column('city', String(255)),
                 Column('cellphone', String(255)),
-                Column('info', String(255)),
-                Column('attended', Boolean)
+                Column('info', String(255))
             )
 
 meta.create_all(engine)

@@ -44,10 +44,10 @@ def register_attendees(attendee: Attendee, event_id: str):
         "info": attendee.info
     }
 
-    qrcode_id = str(uuid())
     new_qrcode = {
-        'id': qrcode_id,
+        'id': attendee.qrcode_id,
         'description': attendee.qrcode_description,
+        'attended': False,
         'attendee_id': attendee_id,
         'event_id': event_id
     }
@@ -78,3 +78,8 @@ def get_attendees(event_id: str):
         return JSONResponse(content={"message": "There aren't attendees registered"}, status_code=404)
     else:
         return result
+
+@data_event_routes.put('/data_events/attendees/{qrcode_id}')
+def update_attendance(qrcode_id: str):
+    conn.execute(qrcodes.update().values(attended=True).where(qrcodes.c.id==qrcode_id))
+    return conn.execute(qrcodes.select().where(qrcodes.c.id==qrcode_id)).first()

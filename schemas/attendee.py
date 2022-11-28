@@ -14,3 +14,4 @@ class Attendee(BaseModel):
   cellphone: str
   info: str
   qrcode_description: str
+  qrcode_id: str
