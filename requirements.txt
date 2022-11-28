@@ -5,3 +5,4 @@ SQLAlchemy==1.4.44
 uvicorn==0.20.0
 virtualenv==20.16.2
 python-dotenv==0.21.0
+cryptography==37.0.4
